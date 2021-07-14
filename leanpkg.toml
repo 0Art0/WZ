@@ -1,0 +1,8 @@
+[package]
+name = "WZ"
+version = "0.1"
+lean_version = "leanprover-community/lean:3.31.0"
+path = "src"
+
+[dependencies]
+mathlib = {git = "https://github.com/leanprover-community/mathlib", rev = "bcc35c75e99e689e45144beaedcbd69399c721e6"}
