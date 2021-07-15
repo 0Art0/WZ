@@ -12,12 +12,12 @@ The functions `F` and `G` form a WZ pair
 
 That is, Δₙ F = Δₖ G
 -/
-def WZ_pair (F : ℤ → ℤ → ℚ) (G : ℤ → ℤ → ℚ) := (∀ (n k : ℤ), F (n+1) k - F n k = G n (k+1) - G n k)
+def WZ_pair (F : ℕ → ℤ → ℚ) (G : ℕ → ℤ → ℚ) := (∀ (n : ℕ), ∀ (k : ℤ), F (n+1) k - F n k = G n (k+1) - G n k)
 
 /-
 This lemma demonstrates that if functions `F` and `G` form a WZ pair, then a finite summation of `F` with the variable `k` can be converted to a telescoping sum of the funtion `G`.
 -/
-lemma creative_telescoping {F G : ℤ → ℤ → ℚ} (wz : WZ_pair F G) (n : ℤ) : ∀ (m : ℕ), summation (λ (k : ℤ), F (n+1) k - F n k) m = G n (m+1) - G n (-m) :=
+lemma creative_telescoping {F G : ℕ → ℤ → ℚ} (wz : WZ_pair F G) (n : ℕ) : ∀ (m : ℕ), summation (λ (k : ℤ), F (n+1) k - F n k) m = G n (m+1) - G n (-m) :=
 begin
   intro m,
   induction m with d hd,
@@ -52,17 +52,17 @@ This shows that ∑ₖ F n k is a constant function of `n`, and therefore the id
 
 -/
 theorem WZ 
-  (F G : ℤ → ℤ → ℚ)
+  (F G : ℕ → ℤ → ℚ)
   (wz : WZ_pair F G) 
-  (Gvanishes : ∀ (n : ℤ), vanishes (G n)) 
+  (Gvanishes : ∀ (n : ℕ), vanishes (G n)) 
   (c : ℚ)
   (base_case : equals_indefinite_sum (F 0) c)
 
-  : ∀ (n : ℤ), equals_indefinite_sum (F n) c :=
+  : ∀ (n : ℕ), equals_indefinite_sum (F n) c :=
 begin
 
   -- this is the crux of the theorem - the fact that ∑ₖ (F (n+1) k - F n k) = 0
-  have consecutive_difference_vanishes : ∀ (n : ℤ), equals_indefinite_sum (λ (k : ℤ), F (n+1) k - F n k) 0 :=
+  have consecutive_difference_vanishes : ∀ (n : ℕ), equals_indefinite_sum (λ (k : ℤ), F (n+1) k - F n k) 0 :=
   begin
     intro n,
     rw equals_indefinite_sum,
@@ -91,19 +91,7 @@ begin
   have inductive_case : _ := zero_diff_iff_equal F consecutive_difference_vanishes c,
 
   intro n,
-  cases n,
-  {
-    induction n with d hd,
-    exact base_case,
-    exact (inductive_case d).1 hd,
-  },
-  {
-    induction n with d hd,
-    {
-      exact (inductive_case (-1)).2 base_case,
-    },
-    {
-      exact (inductive_case (-(d+2))).2 hd,
-    }
-  }
+  induction n with d hd,
+  exact base_case,
+  exact (inductive_case d).1 hd,
 end

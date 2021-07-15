@@ -192,7 +192,7 @@ begin
 end
 
 -- If ∑ₖ (F (n+1) k - F n k) = 0, then ∑ₖ F n k = c  ↔  ∑ₖ F (n+1) k = c
-lemma zero_diff_iff_equal (F : ℤ → ℤ → ℚ) (consecutive_difference_vanishes : ∀ (n : ℤ), equals_indefinite_sum (λ (k : ℤ), F (n+1) k - F n k) 0) (c : ℚ) : ∀ (n : ℤ), equals_indefinite_sum (F n) c ↔ equals_indefinite_sum (F (n+1)) c :=
+lemma zero_diff_iff_equal (F : ℕ → ℤ → ℚ) (consecutive_difference_vanishes : ∀ (n : ℕ), equals_indefinite_sum (λ (k : ℤ), F (n+1) k - F n k) 0) (c : ℚ) : ∀ (n : ℕ), equals_indefinite_sum (F n) c ↔ equals_indefinite_sum (F (n+1)) c :=
 begin
   intro n,
   split,
