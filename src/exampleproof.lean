@@ -6,6 +6,8 @@ open int
 Proof of ∑ₖ (binomial n k) / (2^n) = 1.
 -/
 
+namespace binomial
+
 def binomial : ℕ → ℤ → ℚ
   | 0 0 := 1
   | 0 _ := 0
@@ -78,6 +80,34 @@ begin
     linarith,
   }
 end
+
+lemma binomial0sum : ∀ m, summation.summation (binomial 0) m = 1 :=
+begin
+  intro m,
+  induction m with d hd,
+  {
+    rw summation.summation,
+    refl,
+  },
+  {
+    rw summation.summation,
+    rw hd,
+    rw binomial,
+    rw binomial,
+    ring,
+    linarith,
+    {
+      refine ne.elim _,
+      refine neg_ne_zero.mp _,
+      simp,
+      linarith,
+    },
+  },
+end
+
+end binomial
+
+open binomial
 
 def F : ℕ → ℤ → ℚ := λ n k, (binomial n k) / (2 ^ n)
 
@@ -166,30 +196,6 @@ begin
     assumption,
     exact h,
   }
-end
-
-lemma binomial0sum : ∀ m, summation.summation (binomial 0) m = 1 :=
-begin
-  intro m,
-  induction m with d hd,
-  {
-    rw summation.summation,
-    refl,
-  },
-  {
-    rw summation.summation,
-    rw hd,
-    rw binomial,
-    rw binomial,
-    ring,
-    linarith,
-    {
-      refine ne.elim _,
-      refine neg_ne_zero.mp _,
-      simp,
-      linarith,
-    },
-  },
 end
 
 theorem basecase : summation.equals_indefinite_sum (F 0) 1 :=
