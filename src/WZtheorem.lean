@@ -52,10 +52,10 @@ This shows that ∑ₖ F n k is a constant function of `n`, and therefore the id
 
 -/
 theorem WZ 
-  (F G : ℕ → ℤ → ℚ)
+  {F G : ℕ → ℤ → ℚ}
   (wz : WZ_pair F G) 
   (Gvanishes : ∀ (n : ℕ), vanishes (G n)) 
-  (c : ℚ)
+  {c : ℚ}
   (base_case : equals_indefinite_sum (F 0) c)
 
   : ∀ (n : ℕ), equals_indefinite_sum (F n) c :=

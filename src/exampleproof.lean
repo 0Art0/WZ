@@ -216,4 +216,4 @@ begin
 end
 
 -- the final theorem
-theorem binomial_id : ∀ (n : ℕ), summation.equals_indefinite_sum (F n) 1 := WZ F G WZ_FG Gvanishes 1 basecase
+theorem binomial_id : ∀ (n : ℕ), summation.equals_indefinite_sum (F n) 1 := WZ WZ_FG Gvanishes basecase
